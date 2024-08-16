@@ -48,12 +48,6 @@ python extract_books.py /ruta/a/carpeta/de/imagenes --output_csv resultado.csv
 python extract_books.py ./imagenes_libros --output_csv libros_extraidos.csv
 ```
 
-## Estructura del Proyecto
-
-- `extract_books.py`: Script principal que realiza la extracción de información.
-- `requirements.txt`: Lista de dependencias necesarias para el proyecto.
-- `README.md`: Este archivo, que explica cómo usar el proyecto.
-
 ## Contribuciones
 
 ¡Las contribuciones son bienvenidas! Si tienes ideas para mejorar este proyecto, no dudes en enviar un pull request o abrir un issue.
