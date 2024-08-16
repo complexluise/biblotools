@@ -4,8 +4,6 @@
 
 ## Características
 
-- **Conversión de imágenes a Base64**: El script convierte imágenes en su representación en Base64 para su procesamiento.
-- **Generación de prompts personalizados**: Se crea un mensaje específico para el modelo de IA con las imágenes y un prompt definido.
 - **Extracción automática**: Utiliza el modelo de lenguaje Claude 3.5 de Anthropic para extraer información relevante de las imágenes proporcionadas.
 - **Exportación de resultados**: Los datos extraídos se guardan en un archivo CSV para su uso posterior.
 
