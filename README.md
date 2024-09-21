@@ -1,6 +1,6 @@
 # Extracción Automática de Información de Libros desde Imágenes
 
-¡Bienvenido a nuestro proyecto de extracción automática de información de libros a partir de imágenes! Este script utiliza la API de Anthropic para analizar imágenes de portadas de libros y extraer datos relevantes, incluyendo el ISBN, en formato JSON.
+Este script utiliza la API de Anthropic para analizar imágenes de portadas de libros y extraer datos relevantes, incluyendo el ISBN, en formato JSON.
 
 ## Características
 
@@ -17,8 +17,8 @@
 
 1. Clona este repositorio:
     ```bash
-    git clone https://github.com/tu_usuario/proyecto-extraccion-libros.git
-    cd proyecto-extraccion-libros
+    git clone https://github.com/complexluise/foto_a_formato_bibliotecario.git
+    cd foto_a_formato_bibliotecario
     ```
 
 2. Instala las dependencias necesarias:
@@ -36,7 +36,7 @@
 Este script se ejecuta desde la línea de comandos y requiere como argumento la carpeta que contiene las imágenes de los libros.
 
 ```bash
-python extract_books.py /ruta/a/carpeta/de/imagenes --output_csv resultado.csv
+python src/cli.py /ruta/a/carpeta/de/imagenes --output_csv resultado.csv
 ```
 
 - `image_folder`: Ruta a la carpeta que contiene las imágenes de los libros.
@@ -45,7 +45,7 @@ python extract_books.py /ruta/a/carpeta/de/imagenes --output_csv resultado.csv
 ## Ejemplo de Ejecución
 
 ```bash
-python extract_books.py ./imagenes_libros --output_csv libros_extraidos.csv
+python src/cli.py ./imagenes_libros --output_csv libros_extraidos.csv
 ```
 
 ## Contribuciones
