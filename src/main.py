@@ -6,13 +6,16 @@ from anthropic import Anthropic
 
 PROMPT = "Please extract the information of the book from these images. Important: include the ISBN of the book. The Output is a JSON."
 
+
 def read_image(file_path):
     with open(file_path, "rb") as image_file:
         return image_file.read()
 
+
 def encode_image_to_base64(binary_data):
     base_64_encoded_data = base64.b64encode(binary_data)
     return base_64_encoded_data.decode('utf-8')
+
 
 def create_message_list(image_data_list, prompt):
     content = []
@@ -28,6 +31,7 @@ def create_message_list(image_data_list, prompt):
     content.append({"type": "text", "text": prompt})
     return [{"role": 'user', "content": content}]
 
+
 def generate_response(client, model_name, message_list):
     response = client.messages.create(
         model=model_name,
@@ -35,6 +39,7 @@ def generate_response(client, model_name, message_list):
         messages=message_list
     )
     return response.content[0].text
+
 
 @click.command()
 @click.argument('image_folder', type=click.Path(exists=True))
@@ -72,6 +77,7 @@ def main(image_folder, output_csv):
             writer.writerow([image_path, response])
 
     print(f"Extracted information written to {output_csv}")
+
 
 if __name__ == "__main__":
     main()

@@ -3,6 +3,7 @@ from PIL import Image
 from abc import ABC, abstractmethod
 from typing import List, Dict
 
+
 # Abstract base classes for our interfaces
 
 class TextExtractor(ABC):
@@ -10,15 +11,18 @@ class TextExtractor(ABC):
     def extract_text(self, image: Image.Image) -> str:
         pass
 
+
 class OutputGenerator(ABC):
     @abstractmethod
     def generate(self, text: str) -> str:
         pass
 
+
 class AIModel(ABC):
     @abstractmethod
     def process(self, text: str) -> Dict[str, str]:
         pass
+
 
 # Repository to manage different implementations
 class ModelRepository:
@@ -54,31 +58,37 @@ class ModelRepository:
     def list_ai_models(self) -> List[str]:
         return list(self.ai_models.keys())
 
+
 # Placeholder implementations
 class DefaultTextExtractor(TextExtractor):
     def extract_text(self, image: Image.Image) -> str:
         # Placeholder for OCR logic
         return "Extracted text would appear here"
 
+
 class CSVGenerator(OutputGenerator):
     def generate(self, text: str) -> str:
         # Placeholder for CSV generation logic
         return "CSV data would be here"
+
 
 class MARC21Generator(OutputGenerator):
     def generate(self, text: str) -> str:
         # Placeholder for MARC21 generation logic
         return "MARC21 data would be here"
 
+
 class BIBFRAME2Generator(OutputGenerator):
     def generate(self, text: str) -> str:
         # Placeholder for BIBFRAME2 generation logic
         return "BIBFRAME2 data would be here"
 
+
 class DefaultAIModel(AIModel):
     def process(self, text: str) -> Dict[str, str]:
         # Placeholder for AI processing logic
         return {"processed_text": "AI processed text would be here"}
+
 
 # Streamlit app functions
 def upload_image():
@@ -88,6 +98,7 @@ def upload_image():
         st.image(image, caption="Uploaded Image", use_column_width=True)
         return image
     return None
+
 
 def main():
     st.title("Library AI Showcase")
@@ -118,6 +129,7 @@ def main():
             generator = repo.get_output_generator(output_format)
             result = generator.generate(processed_data["processed_text"])
             st.text_area("Generated Output", result, height=300)
+
 
 if __name__ == "__main__":
     main()
