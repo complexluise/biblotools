@@ -75,9 +75,10 @@ def main(image_folder: str, output_file: str, output_format: str):
     for book_id, book_image_paths in books.items():
         print(f"Processing book: {book_id}")
         book_images = [Image.open(path) for path in book_image_paths]
-        result = process_images(repo, book_images, "Anthropic - Claude Sonnet 3.5", output_format)
+        result = process_images(repo, book_images, 'Antropic - Claude Sonnet 3.5', output_format)
         all_results.append(result)
 
+    repo.get_output_generator(output_format).save(all_results)
     # Combine results and write to file
     if output_format == 'TABLE':
         combined_result = pd.concat(all_results, ignore_index=True)

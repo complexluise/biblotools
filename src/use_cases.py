@@ -3,14 +3,11 @@ from PIL import Image
 from src.models import ModelRepository
 
 
-def process_images(repo: ModelRepository, images: List[Image.Image], ai_model_name: str, output_format: str) -> str:
+def process_images(repo: ModelRepository, images: List[Image.Image], ai_model_name: str, output_format: str):
     ai_model = repo.get_ai_model(ai_model_name)
     processed_data = ai_model.process(images)
 
-    generator = repo.get_output_generator(output_format)
-    result = generator.generate(processed_data)
-
-    return result
+    return repo.get_output_generator(output_format).generate(processed_data)
 
 
 def configure_model_repository() -> ModelRepository:
