@@ -1,15 +1,18 @@
 import streamlit as st
 from PIL import Image
+import pandas as pd
 from src.use_cases import configure_model_repository, process_images
 
 
-def upload_image():
-    uploaded_file = st.file_uploader("Choose an image file", type=["jpg", "jpeg", "png"])
-    if uploaded_file is not None:
-        image = Image.open(uploaded_file)
-        st.image(image, caption="Uploaded Image", use_column_width=True)
-        return image
-    return None
+def upload_images():
+    uploaded_files = st.file_uploader("Choose image files", type=["jpg", "jpeg", "png"], accept_multiple_files=True)
+    images = []
+    if uploaded_files:
+        for uploaded_file in uploaded_files:
+            image = Image.open(uploaded_file)
+            images.append(image)
+            st.image(image, caption=f"Uploaded Image: {uploaded_file.name}", use_column_width=True)
+    return images
 
 
 def main():
@@ -17,9 +20,9 @@ def main():
 
     repo = configure_model_repository()
 
-    image = upload_image()
+    images = upload_images()
 
-    if image:
+    if images:
         ai_model_name = st.selectbox(
             "Select AI Model",
             repo.list_ai_models()
@@ -31,8 +34,11 @@ def main():
         )
 
         if st.button("Generate"):
-            result = process_images(repo, [image], ai_model_name, output_format)
-            st.text_area("Generated Output", result, height=300)
+            results = process_images(repo, images, ai_model_name, output_format)
+
+            # Assuming results is a list of dictionaries
+            df = pd.DataFrame(results)
+            st.table(df)
 
 
 if __name__ == "__main__":
