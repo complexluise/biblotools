@@ -21,7 +21,7 @@ def upload_images():
 
 
 def main():
-    st.title("Foto de libro a tabla")
+    st.title("Fotos de libro a tabla")
 
     repo = configure_model_repository()
 

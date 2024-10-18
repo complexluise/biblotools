@@ -1,16 +1,17 @@
 # Extracción Automática de Información de Libros desde Imágenes
 
-Este script utiliza la API de Anthropic para analizar imágenes de portadas de libros y extraer datos relevantes, incluyendo el ISBN, en formato JSON.
+Esta aplicación Streamlit utiliza la API de Anthropic para analizar imágenes de portadas de libros y extraer datos relevantes, incluyendo el ISBN, presentándolos en una tabla interactiva.
 
 ## Características
 
-- **Extracción automática**: Utiliza el modelo de lenguaje Claude 3.5 de Anthropic para extraer información relevante de las imágenes proporcionadas.
-- **Exportación de resultados**: Los datos extraídos se guardan en un archivo CSV para su uso posterior.
+- **Interfaz web intuitiva**: Utiliza Streamlit para proporcionar una experiencia de usuario amigable.
+- **Extracción automática**: Emplea el modelo de lenguaje Claude 3.5 de Anthropic para extraer información relevante de las imágenes proporcionadas.
+- **Visualización de resultados**: Los datos extraídos se muestran en una tabla interactiva dentro de la aplicación.
 
 ## Requisitos
 
 - Python 3.x
-- Paquetes de Python: `base64`, `os`, `csv`, `click`, `anthropic`
+- Paquetes de Python: `streamlit`, `pillow`, `pandas`, `anthropic`
 - Una clave API válida de Anthropic
 
 ## Instalación
@@ -33,20 +34,20 @@ Este script utiliza la API de Anthropic para analizar imágenes de portadas de l
 
 ## Uso
 
-Este script se ejecuta desde la línea de comandos y requiere como argumento la carpeta que contiene las imágenes de los libros.
+Para ejecutar la aplicación Streamlit:
 
-```bash
-python src/cli.py /ruta/a/carpeta/de/imagenes --output_csv resultado.csv
-```
+    ```bash
+    streamlit run app/main.py
+    ```
 
-- `image_folder`: Ruta a la carpeta que contiene las imágenes de los libros.
-- `--output_csv`: (Opcional) Nombre del archivo CSV donde se almacenará la información extraída. Por defecto es `output.csv`.
+Luego, abre tu navegador y ve a la dirección que se muestra en la consola (generalmente http://localhost:8501).
 
-## Ejemplo de Ejecución
+## Cómo usar la aplicación
+Carga las imágenes de los libros utilizando el botón de carga de archivos.
+Selecciona el modelo de IA que deseas utilizar. (Por el momento solo esta Anthropic - Claude Sonnet 3.5)
+Elige el formato de salida deseado.
+Haz clic en "Generar" para procesar las imágenes y ver los resultados.
 
-```bash
-python src/cli.py ./imagenes_libros --output_csv libros_extraidos.csv
-```
 
 ## Contribuciones
 
@@ -54,8 +55,6 @@ python src/cli.py ./imagenes_libros --output_csv libros_extraidos.csv
 
 ## Licencia
 
-Este proyecto está bajo la Licencia MIT. ¡Siéntete libre de usarlo y modificarlo como desees!
-
----
+Este proyecto está bajo la Licencia GNU GENERAL PUBLIC LICENSE. ¡Siéntete libre de usarlo y modificarlo como desees!
 
 ¡Gracias por usar este proyecto! Esperamos que te sea útil y facilite tu trabajo con la extracción de datos de libros a partir de imágenes. 🚀📚
