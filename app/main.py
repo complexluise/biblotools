@@ -21,7 +21,7 @@ def upload_images():
 
 
 def main():
-    st.title("Library AI Showcase")
+    st.title("Foto de libro a tabla")
 
     repo = configure_model_repository()
 
@@ -29,16 +29,16 @@ def main():
 
     if images:
         ai_model_name = st.selectbox(
-            "Select AI Model",
+            "Selecciona el modelo de IA",
             repo.list_ai_models()
         )
 
         output_format = st.selectbox(
-            "Select output format",
+            "Selecciona el formato de salida",
             repo.list_output_generators()
         )
 
-        if st.button("Generate"):
+        if st.button("Generar"):
             results = process_images(repo, images, ai_model_name, output_format)
 
             # Assuming results is a list of dictionaries
