@@ -2,9 +2,12 @@ import base64
 import io
 import re
 
+from anthropic import Anthropic
+from langsmith import traceable
 from PIL import Image
 from typing import List, Dict
-from anthropic import Anthropic
+
+
 from src.utils import (
     TextExtractor,
     OutputGenerator,
@@ -53,12 +56,25 @@ class DefaultTextExtractor(TextExtractor):
 
 
 class CSVGenerator(OutputGenerator):
-    def generate(self, data: Dict[str, str]) -> str:
-        # Convert dictionary to CSV string
-        csv_string = "Key,Value\n"
-        for key, value in data.items():
-            csv_string += f"{key},{value}\n"
+    def generate(self, data: List[Dict[str, str]]) -> str:
+        if not data:
+            return ""
+
+        headers = data[0].keys()
+        csv_string = ",".join(headers) + "\n"
+
+        for item in data:
+            csv_string += ",".join(str(item.get(header, "")) for header in headers) + "\n"
+
         return csv_string
+
+
+class TableGenerator(OutputGenerator):
+    def generate(self, data: List[Dict[str, str]]) -> str:
+        if not data:
+            return []
+
+        return data
 
 
 class MARC21Generator(OutputGenerator):
@@ -109,10 +125,11 @@ class AnthropicAIModel(AIModel):
                 }
             })
         content.append({"type": "text",
-                        "text": "Please extract the information of the books from these images."
-                                " Important: include the ISBN of each book. The output should be a markdown table."})
+                        "text": "Please extract the information of the book from these images."
+                                "Important: include the ISBN. The output should be a markdown table."})
         return [{"role": 'user', "content": content}]
 
+    @traceable
     def _generate_response(self, message_list) -> str:
         response = self.client.messages.create(
             model=self.model_name,
