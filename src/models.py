@@ -1,11 +1,11 @@
 import base64
 import io
 import re
-
+import pandas as pd
 from anthropic import Anthropic
 from langsmith import traceable
 from PIL import Image
-from typing import List, Dict
+from typing import List, Dict, Union
 
 
 from src.utils import (
@@ -70,11 +70,17 @@ class CSVGenerator(OutputGenerator):
 
 
 class TableGenerator(OutputGenerator):
-    def generate(self, data: List[Dict[str, str]]) -> str:
-        if not data:
-            return []
+    def generate(self, data: List[Dict[str, str]]) -> pd.DataFrame:
+        """
+        Generate a pandas DataFrame from the input data.
 
-        return data
+        Args:
+            data (List[Dict[str, str]]): A list of dictionaries containing the data.
+
+        Returns:
+            pd.DataFrame: A pandas DataFrame representation of the input data.
+        """
+        return pd.DataFrame(data)
 
 
 class MARC21Generator(OutputGenerator):
