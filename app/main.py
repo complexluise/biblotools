@@ -8,10 +8,15 @@ def upload_images():
     uploaded_files = st.file_uploader("Choose image files", type=["jpg", "jpeg", "png"], accept_multiple_files=True)
     images = []
     if uploaded_files:
-        for uploaded_file in uploaded_files:
+        col1, col2 = st.columns(2)
+        for i, uploaded_file in enumerate(uploaded_files):
             image = Image.open(uploaded_file)
             images.append(image)
-            st.image(image, caption=f"Uploaded Image: {uploaded_file.name}", use_column_width=True)
+
+        with col1:
+            st.image(images[0], caption=f"Uploaded Image: {uploaded_file.name}", width=300)
+        with col2:
+            st.image(images[1], caption=f"Uploaded Image: {uploaded_file.name}", width=300)
     return images
 
 
