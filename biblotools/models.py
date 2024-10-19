@@ -1,14 +1,13 @@
 import base64
 import io
 import re
-import pandas as pd
 from anthropic import Anthropic
 from langsmith import traceable
+from pandas import DataFrame
 from PIL import Image
 from typing import List, Dict, Union
 
-
-from src.utils import (
+from biblotools.utils import (
     TextExtractor,
     OutputGenerator,
     AIModel
@@ -57,30 +56,11 @@ class DefaultTextExtractor(TextExtractor):
 
 class CSVGenerator(OutputGenerator):
     def generate(self, data: List[Dict[str, str]]) -> str:
-        if not data:
-            return ""
+        df = DataFrame(data)
+        return df.set_index('Field').T.reset_index(drop=True)
 
-        headers = data[0].keys()
-        csv_string = ",".join(headers) + "\n"
-
-        for item in data:
-            csv_string += ",".join(str(item.get(header, "")) for header in headers) + "\n"
-
-        return csv_string
-
-
-class TableGenerator(OutputGenerator):
-    def generate(self, data: List[Dict[str, str]]) -> pd.DataFrame:
-        """
-        Generate a pandas DataFrame from the input data.
-
-        Args:
-            data (List[Dict[str, str]]): A list of dictionaries containing the data.
-
-        Returns:
-            pd.DataFrame: A pandas DataFrame representation of the input data.
-        """
-        return pd.DataFrame(data)
+    def save(self, df: DataFrame, filename: str):
+        df.to_csv(filename, index=False)
 
 
 class MARC21Generator(OutputGenerator):
@@ -88,11 +68,17 @@ class MARC21Generator(OutputGenerator):
         # Placeholder for MARC21 generation logic
         return "MARC21 data would be here"
 
+    def save(self):
+        pass
+
 
 class BIBFRAME2Generator(OutputGenerator):
     def generate(self, data: Dict[str, str]) -> str:
         # Placeholder for BIBFRAME2 generation logic
         return "BIBFRAME2 data would be here"
+
+    def save(self):
+        pass
 
 
 class DefaultAIModel(AIModel):
@@ -106,11 +92,12 @@ class AnthropicAIModel(AIModel):
         self.client = Anthropic(api_key=api_key)
         self.model_name = model_name
 
-    def process(self, images: List[Image.Image]) -> List[Dict[str, str]]:
+    def process(self, images: List[Image.Image]) -> DataFrame:
         image_data_list = [self._encode_image(img) for img in images]
         message_list = self._create_message_list(image_data_list)
         response = self._generate_response(message_list)
-        return self._parse_markdown_table(response)
+        table: list[dict[str, str]] = self._parse_markdown_table(response)
+        return self._table_to_dataframe(table)
 
     @staticmethod
     def _encode_image(image: Image.Image) -> str:
@@ -164,3 +151,10 @@ class AnthropicAIModel(AIModel):
 
         return data
 
+    @staticmethod
+    def _table_to_dataframe(data: List[Dict[str, str]]) -> DataFrame:
+        # Convert the list of dictionaries to a pandas DataFrame
+        df = DataFrame(data)
+
+        # Flatten the DataFrame if it has nested structures
+        return df.apply(lambda x: x.explode()).reset_index(drop=True)  # Verificar este correcto el output

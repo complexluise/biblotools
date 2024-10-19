@@ -14,6 +14,10 @@ class OutputGenerator(ABC):
     def generate(self, data: Dict[str, str]):
         pass
 
+    @abstractmethod
+    def save(self, *args, **kwargs):
+        pass
+
 
 class AIModel(ABC):
     @abstractmethod
