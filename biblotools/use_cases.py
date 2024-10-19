@@ -1,6 +1,6 @@
 from typing import List
 from PIL import Image
-from src.models import ModelRepository
+from biblotools.models import AnthropicAIModel, ModelRepository, CSVGenerator
 
 
 def process_images(repo: ModelRepository, images: List[Image.Image], ai_model_name: str, output_format: str):
@@ -11,7 +11,6 @@ def process_images(repo: ModelRepository, images: List[Image.Image], ai_model_na
 
 
 def configure_model_repository() -> ModelRepository:
-    from src.models import AnthropicAIModel, TableGenerator
     import os
 
     repo = ModelRepository()
@@ -20,9 +19,5 @@ def configure_model_repository() -> ModelRepository:
     if API_KEY:
         repo.add_ai_model("Antropic - Claude Sonnet 3.5", AnthropicAIModel(API_KEY, "claude-3-5-sonnet-20240620"))
 
-    repo.add_output_generator("TABLE", TableGenerator())
-    #repo.add_output_generator("CSV", CSVGenerator())
-    #repo.add_output_generator("MARC21", MARC21Generator())
-    #repo.add_output_generator("BIBFRAME2", BIBFRAME2Generator())
-
+    repo.add_output_generator("CSV", CSVGenerator())
     return repo
