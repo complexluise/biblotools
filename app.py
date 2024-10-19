@@ -1,7 +1,7 @@
 import streamlit as st
 from PIL import Image
 import pandas as pd
-from src.use_cases import configure_model_repository, process_images
+from biblotools.use_cases import configure_model_repository, process_images
 
 
 def upload_images():
