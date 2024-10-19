@@ -1,8 +1,13 @@
 import streamlit as st
 from PIL import Image
 import pandas as pd
-from src.use_cases import configure_model_repository, process_images
+from biblotools.use_cases import configure_model_repository, process_images
 
+
+@st.cache_data
+def convert_df(df):
+    # IMPORTANT: Cache the conversion to prevent computation on every rerun
+    return df.to_csv(index=False).encode("utf-8")
 
 def upload_images():
     uploaded_files = st.file_uploader("Choose image files", type=["jpg", "jpeg", "png"], accept_multiple_files=True)
@@ -39,11 +44,17 @@ def main():
         )
 
         if st.button("Generar"):
-            results = process_images(repo, images, ai_model_name, output_format)
+            df = process_images(repo, images, ai_model_name, output_format)
 
             # Assuming results is a list of dictionaries
-            df = pd.DataFrame(results)
+            # TODO depending on the OutputGenerator, this might need to be a different data structure
             st.table(df)
+            st.download_button(
+                label="Descargar tabla como CSV",
+                data=convert_df(df),
+                file_name="tabla_libros.csv",
+                mime="text/csv",
+            )
 
 
 if __name__ == "__main__":

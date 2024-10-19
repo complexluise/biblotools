@@ -1,5 +1,6 @@
 anthropic==0.32.0
 click==8.1.7
+langsmith==0.1.108
 pillow==10.4.0
 python-dotenv==1.0.1
 streamlit==1.38.0

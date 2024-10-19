@@ -11,7 +11,11 @@ class TextExtractor(ABC):
 
 class OutputGenerator(ABC):
     @abstractmethod
-    def generate(self, data: Dict[str, str]) -> str:
+    def generate(self, data: Dict[str, str]):
+        pass
+
+    @abstractmethod
+    def save(self, *args, **kwargs):
         pass
 
 
