@@ -10,12 +10,17 @@ def process_images(repo: ModelRepository, images: List[Image.Image], ai_model_na
     return repo.get_output_generator(output_format).generate(processed_data)
 
 
-def configure_model_repository() -> ModelRepository:
+def configure_model_repository(is_streamlit=False) -> ModelRepository:
     import os
 
     repo = ModelRepository()
 
-    API_KEY = os.getenv("ANTHROPIC_KEY")
+    if is_streamlit:
+        import streamlit as st
+        API_KEY = st.secrets["ANTHROPIC_KEY"]
+    else:
+        API_KEY = os.getenv("ANTHROPIC_KEY")
+
     if API_KEY:
         repo.add_ai_model("Antropic - Claude Sonnet 3.5", AnthropicAIModel(API_KEY, "claude-3-5-sonnet-20240620"))
 

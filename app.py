@@ -28,7 +28,7 @@ def upload_images():
 def main():
     st.title("Fotos de libro a tabla")
 
-    repo = configure_model_repository()
+    repo = configure_model_repository(is_streamlit=True)
 
     images = upload_images()
 
