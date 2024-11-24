@@ -1,5 +1,7 @@
 # Extracción Automática de Información de Libros desde Imágenes
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://libroscan.streamlit.app)
+
 Esta aplicación Streamlit utiliza la API de Anthropic para analizar imágenes de portadas de libros y extraer datos relevantes, incluyendo el ISBN, presentándolos en una tabla interactiva.
 
 ## Características
